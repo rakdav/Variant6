@@ -19,7 +19,9 @@ namespace Variant6.ViewModel
         public PaginationViewModel TopPagination
         {
             get { return topPagination; }
-            set { topPagination = value;
+            set
+            {
+                topPagination = value;
                 OnPropertyChanged();
             }
         }
@@ -56,9 +58,9 @@ namespace Variant6.ViewModel
 
         public MainVewModel()
         {
-            demo_list =new ObservableCollection<MaterialViewModel>();
-            fullList =new List<MaterialViewModel>();
-            using(ModelDB db= new ModelDB())
+            demo_list = new ObservableCollection<MaterialViewModel>();
+            fullList = new List<MaterialViewModel>();
+            using (ModelDB db = new ModelDB())
             {
                 var query = from p in db.Material
                             select new
@@ -73,7 +75,7 @@ namespace Variant6.ViewModel
                                 Image = p.Image,
                                 MaterialType = p.MaterialType.Title
                             };
-                foreach(var item in query)
+                foreach (var item in query)
                 {
                     MaterialViewModel ourMaterial = new MaterialViewModel();
                     ourMaterial.Title = item.Title;
@@ -92,25 +94,25 @@ namespace Variant6.ViewModel
                     string res = "";
                     foreach (MaterialSupplier supp in sup)
                         res += supp.SupplierID + ",";
-                    if(res.Length!=0)
+                    if (res.Length != 0)
                         res = res.Substring(0, res.Length - 2);
                     ourMaterial.Suppliers = res;
-                    fullList.Add(ourMaterial);               
-                }    
+                    fullList.Add(ourMaterial);
+                }
             }
             topPagination = new PaginationViewModel();
-            bottomPagination=new PaginationViewModel();
-            PaginationModel topModel = new PaginationModel(fullList.Count(),15);
-            PaginationModel bottomModel=new PaginationModel(2500,30);
+            bottomPagination = new PaginationViewModel();
+            PaginationModel topModel = new PaginationModel(fullList.Count(), 15);
+            PaginationModel bottomModel = new PaginationModel(2500, 30);
             topPagination.seed(topModel);
             bottomPagination.seed(bottomModel);
-            topPagination.Pagination.PropertyChanged +=Pagination_PropertyChanged;
+            topPagination.Pagination.PropertyChanged += Pagination_PropertyChanged;
             processPage(null);
         }
 
-        private void Pagination_PropertyChanged(object Sender,PropertyChangedEventArgs e)
+        private void Pagination_PropertyChanged(object Sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName== "CurrentPage")
+            if (e.PropertyName == "CurrentPage")
             {
                 processPage(null);
             }
@@ -120,16 +122,20 @@ namespace Variant6.ViewModel
             try
             {
                 List<MaterialViewModel> page_list = new List<MaterialViewModel>();
-                int start_counting = (topPagination.Pagination.CurrentPage - 1) *topPagination.Pagination.ItemsPerPage;
-                int ending_count=start_counting+topPagination.Pagination.ItemsPerPage;
+                int start_counting = (topPagination.Pagination.CurrentPage - 1) * topPagination.Pagination.ItemsPerPage;
+                int ending_count = start_counting + topPagination.Pagination.ItemsPerPage;
                 page_list = fullList.Skip(start_counting).
                     Take(topPagination.Pagination.ItemsPerPage).ToList();
                 DemoList = new ObservableCollection<MaterialViewModel>(page_list);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
+        }
+        private void FilterCommand(string obj)
+        {
+            int x = 7;
         }
     }
 }

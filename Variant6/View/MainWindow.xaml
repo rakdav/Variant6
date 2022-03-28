@@ -7,6 +7,7 @@
         xmlns:view="clr-namespace:Variant6.View"
         xmlns:viewmodel="clr-namespace:Variant6.ViewModel"
         mc:Ignorable="d"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="Большая пачка" Height="450" Width="800" Icon="..\Materials\Большая пачка.ico">
     <Window.Resources>
         <DataTemplate x:Key="MaterialItem">
@@ -43,6 +44,32 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15">
+            <TextBox Width="300" Margin="10 0 10 0"/>
+            <ComboBox Width="150" Margin="10 0 10 0"/>
+            <TextBlock Margin="10 0 10 0">
+                <Hyperlink>
+                    
+                </Hyperlink>
+            </TextBlock>
+            <ComboBox Width="150" Margin="10 0 10 0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding FilterCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <ComboBoxItem IsSelected="True">
+                <TextBlock>Наименование</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="False">
+                <TextBlock>Остаток на складе</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem IsSelected="False">
+                <TextBlock>Стоимость</TextBlock>
+            </ComboBoxItem>
+
+        </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding Path=DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
         <view:PaginationView Grid.Row="2" VerticalAlignment="Center" DataContext="{Binding TopPagination,
