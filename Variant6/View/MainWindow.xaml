@@ -44,7 +44,7 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15">
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" DataContext="{Binding}">
             <TextBox Width="300" Margin="10 0 10 0"/>
             <ComboBox Width="150" Margin="10 0 10 0"/>
             <TextBlock Margin="10 0 10 0">
@@ -52,23 +52,13 @@
                     
                 </Hyperlink>
             </TextBlock>
-            <ComboBox Width="150" Margin="10 0 10 0">
+            <ComboBox Width="150" Margin="10 0 10 0" ItemsSource="{Binding Filter}" SelectedItem="{Binding SelectedCount}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <ComboBoxItem IsSelected="True">
-                <TextBlock>Наименование</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem IsSelected="False">
-                <TextBlock>Остаток на складе</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem IsSelected="False">
-                <TextBlock>Стоимость</TextBlock>
-            </ComboBoxItem>
-
         </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding Path=DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>

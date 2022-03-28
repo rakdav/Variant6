@@ -15,6 +15,7 @@ namespace Variant6.ViewModel
 {
     internal class MainVewModel : ChangeNotifier
     {
+        #region Properties
         private PaginationViewModel topPagination;
         public PaginationViewModel TopPagination
         {
@@ -55,6 +56,18 @@ namespace Variant6.ViewModel
                 OnPropertyChanged();
             }
         }
+        public List<string> Filter { get; set; }
+        private string selectedCount;
+        public string SelectedCount
+        {
+            get { return selectedCount; }
+            set
+            {
+                selectedCount = value;
+                OnPropertyChanged("");
+            }
+        }
+        #endregion
 
         public MainVewModel()
         {
@@ -97,7 +110,7 @@ namespace Variant6.ViewModel
                     if (res.Length != 0)
                         res = res.Substring(0, res.Length - 2);
                     ourMaterial.Suppliers = res;
-                    fullList.Add(ourMaterial);
+                    FullList.Add(ourMaterial);
                 }
             }
             topPagination = new PaginationViewModel();
@@ -106,6 +119,10 @@ namespace Variant6.ViewModel
             PaginationModel bottomModel = new PaginationModel(2500, 30);
             topPagination.seed(topModel);
             bottomPagination.seed(bottomModel);
+            Filter = new List<string>();
+            Filter.Add("Наименование");
+            Filter.Add("Остаток на складе");
+            Filter.Add("Стоимость");
             topPagination.Pagination.PropertyChanged += Pagination_PropertyChanged;
             processPage(null);
         }
@@ -124,7 +141,7 @@ namespace Variant6.ViewModel
                 List<MaterialViewModel> page_list = new List<MaterialViewModel>();
                 int start_counting = (topPagination.Pagination.CurrentPage - 1) * topPagination.Pagination.ItemsPerPage;
                 int ending_count = start_counting + topPagination.Pagination.ItemsPerPage;
-                page_list = fullList.Skip(start_counting).
+                page_list = FullList.Skip(start_counting).
                     Take(topPagination.Pagination.ItemsPerPage).ToList();
                 DemoList = new ObservableCollection<MaterialViewModel>(page_list);
             }
@@ -133,9 +150,26 @@ namespace Variant6.ViewModel
                 throw;
             }
         }
-        private void FilterCommand(string obj)
+        
+        #region Command
+        private RelayCommand filterCommand;
+        public RelayCommand FilterCommand
         {
-            int x = 7;
+            get
+            {
+                return filterCommand ??
+                  (filterCommand= new RelayCommand(obj =>
+                  {
+                      if(SelectedCount.Equals("Наименование"))
+                        FullList=FullList.OrderBy(p => p.Title).ToList();
+                      if (SelectedCount.Equals("Остаток на складе"))
+                          FullList = FullList.OrderBy(p => p.CountInStock).ToList();
+                      if (SelectedCount.Equals("Стоимость"))
+                          FullList=FullList.OrderBy(p => p.Cost).ToList();
+                      processPage(null);
+                  }));
+            }
         }
+        #endregion
     }
 }
