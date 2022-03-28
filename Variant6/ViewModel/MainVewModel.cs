@@ -64,7 +64,7 @@ namespace Variant6.ViewModel
             set
             {
                 selectedCount = value;
-                OnPropertyChanged("");
+                OnPropertyChanged();
             }
         }
         #endregion
