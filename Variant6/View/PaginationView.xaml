@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Variant6.View.PaginationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Variant6.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="grdOverall" VerticalAlignment="Center" 
+          DataContext="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Display Items:"/>
+            <TextBox x:Name="tbxDisplayItems" 
+               Text="{Binding pagination.ItemsPerPage,
+                NotifyOnSourceUpdated=True,
+                UpdateSourceTrigger=PropertyChanged}"
+                Width="35" HorizontalContentAlignment="Center"
+                KeyDown="tbxDisplayItems_KeyDown" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Grid.Column="1">
+            <TextBlock Text="Page "/>
+            <TextBlock Text="{Binding pagination.CurrentPage,
+                NotifyOnSourceUpdated=True,
+                UpdateSourceTrigger=PropertyChanged}"
+                       Margin="5,0" Foreground="Blue"
+                       />
+            <TextBlock Text=" of "/>
+            <TextBlock Text="{Binding pagination.TotalPages,
+                NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
+                       Margin="5,0" Foreground="Blue"
+                       />
+            <TextBlock Text="|" Margin="5,0"/>
+            <TextBlock Text="Go to:"/>
+            <TextBox x:Name="tbxGoTo" 
+                Text="{Binding pagination.CurrentPage,
+                NotifyOnSourceUpdated=True,
+                UpdateSourceTrigger=PropertyChanged}"
+                     Width="35" HorizontalContentAlignment="Center"
+                     />
+            <TextBlock Text="|" Margin="5,0"/>
+            <TextBlock Margin="5,0">
+                <Hyperlink>
+                    Prev
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="5,0">
+                <Hyperlink>
+                    Next
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
