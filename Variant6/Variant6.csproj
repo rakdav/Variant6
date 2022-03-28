@@ -121,6 +121,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Agent.cs" />
+    <Compile Include="Model\AgentPriorityHistory.cs" />
+    <Compile Include="Model\AgentType.cs" />
+    <Compile Include="Model\Material.cs" />
+    <Compile Include="Model\MaterialCountHistory.cs" />
+    <Compile Include="Model\MaterialSupplier.cs" />
+    <Compile Include="Model\MaterialType.cs" />
+    <Compile Include="Model\ModelDB.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProductCostHistory.cs" />
+    <Compile Include="Model\ProductMaterial.cs" />
+    <Compile Include="Model\ProductSale.cs" />
+    <Compile Include="Model\ProductType.cs" />
+    <Compile Include="Model\Shop.cs" />
+    <Compile Include="Model\Supplier.cs" />
+    <Compile Include="Model\sysdiagrams.cs" />
+    <Compile Include="ViewModel\PaginationViewModel.cs" />
     <Compile Include="View\PaginationView.xaml.cs">
       <DependentUpon>PaginationView.xaml</DependentUpon>
     </Compile>
@@ -144,21 +161,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Agent.cs" />
-    <Compile Include="Model\AgentPriorityHistory.cs" />
-    <Compile Include="Model\AgentType.cs" />
-    <Compile Include="Model\Material.cs" />
-    <Compile Include="Model\MaterialCountHistory.cs" />
-    <Compile Include="Model\MaterialType.cs" />
-    <Compile Include="Model\ModelDB.cs" />
     <Compile Include="ViewModel\MaterialViewModel.cs" />
-    <Compile Include="Model\Product.cs" />
-    <Compile Include="Model\ProductCostHistory.cs" />
-    <Compile Include="Model\ProductMaterial.cs" />
-    <Compile Include="Model\ProductSale.cs" />
-    <Compile Include="Model\ProductType.cs" />
-    <Compile Include="Model\Shop.cs" />
-    <Compile Include="Model\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -189,9 +192,6 @@
     <Resource Include="Materials\Большая пачка.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Materials\picture.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Materials\image_1.jpeg" />
     <Resource Include="Materials\image_10.jpeg" />
     <Resource Include="Materials\image_11.jpeg" />
@@ -219,6 +219,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Materials\picture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.1\build\System.Text.Json.targets')" />

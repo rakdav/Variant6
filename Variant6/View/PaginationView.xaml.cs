@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Variant6.ViewModel;
 
 namespace Variant6.View
 {
@@ -27,7 +28,18 @@ namespace Variant6.View
 
         private void tbxDisplayItems_KeyDown(object sender, KeyEventArgs e)
         {
+            try
+            {
+                if(e.KeyboardDevice.IsKeyDown(Key.Enter))
+                {
+                    ((PaginationViewModel)this.DataContext).calculatePagination();
 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

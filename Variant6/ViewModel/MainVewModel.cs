@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Haley.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,12 +13,51 @@ using Variant6.View;
 
 namespace Variant6.ViewModel
 {
-    internal class MainVewModel : INotifyPropertyChanged
+    internal class MainVewModel : ChangeNotifier
     {
-        public ObservableCollection<MaterialViewModel> OurMaterials { get; set; }
+        private PaginationViewModel topPagination;
+        public PaginationViewModel TopPagination
+        {
+            get { return topPagination; }
+            set { topPagination = value;
+                OnPropertyChanged();
+            }
+        }
+        private PaginationViewModel bottomPagination;
+        public PaginationViewModel BottomPagination
+        {
+            get { return bottomPagination; }
+            set
+            {
+                bottomPagination = value;
+                OnPropertyChanged();
+            }
+        }
+        private List<MaterialViewModel> fullList;
+        public List<MaterialViewModel> FullList
+        {
+            get { return fullList; }
+            set
+            {
+                fullList = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<MaterialViewModel> demo_list;
+        public ObservableCollection<MaterialViewModel> DemoList
+        {
+            get { return demo_list; }
+            set
+            {
+                demo_list = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainVewModel()
         {
-            OurMaterials =new ObservableCollection<MaterialViewModel>();
+            demo_list =new ObservableCollection<MaterialViewModel>();
+            fullList =new List<MaterialViewModel>();
             using(ModelDB db= new ModelDB())
             {
                 var query = from p in db.Material
@@ -43,24 +83,53 @@ namespace Variant6.ViewModel
                     ourMaterial.MinCount = item.MinCount;
                     ourMaterial.Description = item.Desc;
                     ourMaterial.Cost = item.Cost;
-                    ourMaterial.Image = item.Image;
+                    if (item.Image != "")
+                        ourMaterial.Image = item.Image;
+                    else
+                        ourMaterial.Image = @"/Materials/picture.png";
                     ourMaterial.MaterialTypeID = item.MaterialType.ToString();
-                    //List<Supplier> sup=db.Supplier.Where(s=>s.Material.Equals(item.Title)).ToList();
-                    //string res = "";
-                    //foreach (Supplier supp in sup)
-                    //    res += supp.Title+",";
-                    //res=res.Substring(0, res.Length-2);
-                    //ourMaterial.Suppliers = res;
-                    OurMaterials.Add(ourMaterial);               
+                    List<MaterialSupplier> sup = db.MaterialSupplier.Where(s => s.MaterialID.Equals(item.Title)).ToList();
+                    string res = "";
+                    foreach (MaterialSupplier supp in sup)
+                        res += supp.SupplierID + ",";
+                    if(res.Length!=0)
+                        res = res.Substring(0, res.Length - 2);
+                    ourMaterial.Suppliers = res;
+                    fullList.Add(ourMaterial);               
                 }    
             }
+            topPagination = new PaginationViewModel();
+            bottomPagination=new PaginationViewModel();
+            PaginationModel topModel = new PaginationModel(fullList.Count(),15);
+            PaginationModel bottomModel=new PaginationModel(2500,30);
+            topPagination.seed(topModel);
+            bottomPagination.seed(bottomModel);
+            topPagination.Pagination.PropertyChanged +=Pagination_PropertyChanged;
+            processPage(null);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        private void Pagination_PropertyChanged(object Sender,PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            if(e.PropertyName== "CurrentPage")
+            {
+                processPage(null);
+            }
+        }
+        private void processPage(object param)
+        {
+            try
+            {
+                List<MaterialViewModel> page_list = new List<MaterialViewModel>();
+                int start_counting = (topPagination.Pagination.CurrentPage - 1) *topPagination.Pagination.ItemsPerPage;
+                int ending_count=start_counting+topPagination.Pagination.ItemsPerPage;
+                page_list = fullList.Skip(start_counting).
+                    Take(topPagination.Pagination.ItemsPerPage).ToList();
+                DemoList = new ObservableCollection<MaterialViewModel>(page_list);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

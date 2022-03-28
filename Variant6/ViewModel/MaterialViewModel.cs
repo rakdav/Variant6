@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Haley.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Variant6.Model
 {
-    public class MaterialViewModel : INotifyPropertyChanged
+    public class MaterialViewModel : ChangeNotifier
     {
         private string title;
         private int countInPack;
@@ -25,7 +26,7 @@ namespace Variant6.Model
             set
             {
                 title = value;
-                OnPropertyChanged("Title");
+                OnPropertyChanged();
             }
         }
         public int CountInPack
@@ -34,7 +35,7 @@ namespace Variant6.Model
             set
             {
                 countInPack = value;
-                OnPropertyChanged("CountInPack");
+                OnPropertyChanged();
             }
         }
         public string Unit {
@@ -42,7 +43,7 @@ namespace Variant6.Model
             set
             {
                 unit = value;
-                OnPropertyChanged("Unit");
+                OnPropertyChanged();
             }
         }
         public double? CountInStock 
@@ -51,7 +52,7 @@ namespace Variant6.Model
             set
             {
                 countInStock = value;
-                OnPropertyChanged("Unit");
+                OnPropertyChanged();
             }
         }
         public double MinCount 
@@ -60,7 +61,7 @@ namespace Variant6.Model
             set
             {
                 minCount = value;
-                OnPropertyChanged("MinCount");
+                OnPropertyChanged();
             }
         }
         public string Description 
@@ -69,7 +70,7 @@ namespace Variant6.Model
             set
             {
                 description = value;
-                OnPropertyChanged("Description");
+                OnPropertyChanged("");
             }
         }
         public decimal Cost 
@@ -78,7 +79,7 @@ namespace Variant6.Model
             set
             {
                 cost = value;
-                OnPropertyChanged("Cost");
+                OnPropertyChanged();
             }
         }
         public string Image {
@@ -86,7 +87,7 @@ namespace Variant6.Model
             set
             {
                 image = value;
-                OnPropertyChanged("Image");
+                OnPropertyChanged();
             }
         }
         public string MaterialTypeID
@@ -95,7 +96,7 @@ namespace Variant6.Model
             set
             {
                 materialTypeID = value;
-                OnPropertyChanged("MaterialTypeID");
+                OnPropertyChanged();
             }
         }
         public string Suppliers
@@ -104,14 +105,9 @@ namespace Variant6.Model
             set
             {
                 suppliers = value;
-                OnPropertyChanged("Suppliers");
+                OnPropertyChanged();
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+    
     }
 }

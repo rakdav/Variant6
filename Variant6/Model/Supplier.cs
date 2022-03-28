@@ -12,7 +12,7 @@ namespace Variant6.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supplier()
         {
-            Material = new HashSet<Material>();
+            MaterialSupplier = new HashSet<MaterialSupplier>();
         }
 
         [Key]
@@ -32,6 +32,6 @@ namespace Variant6.Model
         public string SupplierType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Material> Material { get; set; }
+        public virtual ICollection<MaterialSupplier> MaterialSupplier { get; set; }
     }
 }

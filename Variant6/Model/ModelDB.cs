@@ -17,6 +17,7 @@ namespace Variant6.Model
         public virtual DbSet<AgentType> AgentType { get; set; }
         public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<MaterialCountHistory> MaterialCountHistory { get; set; }
+        public virtual DbSet<MaterialSupplier> MaterialSupplier { get; set; }
         public virtual DbSet<MaterialType> MaterialType { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductCostHistory> ProductCostHistory { get; set; }
@@ -25,6 +26,7 @@ namespace Variant6.Model
         public virtual DbSet<ProductType> ProductType { get; set; }
         public virtual DbSet<Shop> Shop { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -61,9 +63,9 @@ namespace Variant6.Model
                 .HasPrecision(10, 2);
 
             modelBuilder.Entity<Material>()
-                .HasMany(e => e.Supplier)
-                .WithMany(e => e.Material)
-                .Map(m => m.ToTable("MaterialSupplier").MapLeftKey("MaterialID").MapRightKey("SupplierID"));
+                .HasMany(e => e.MaterialSupplier)
+                .WithRequired(e => e.Material)
+                .HasForeignKey(e => e.MaterialID);
 
             modelBuilder.Entity<MaterialType>()
                 .HasMany(e => e.Material)
@@ -97,6 +99,12 @@ namespace Variant6.Model
             modelBuilder.Entity<Supplier>()
                 .Property(e => e.INN)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.MaterialSupplier)
+                .WithRequired(e => e.Supplier)
+                .HasForeignKey(e => e.SupplierID)
+                .WillCascadeOnDelete(false);
         }
     }
 }

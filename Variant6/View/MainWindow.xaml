@@ -11,27 +11,27 @@
     <Window.Resources>
         <DataTemplate x:Key="MaterialItem">
             <StackPanel Orientation="Horizontal">
-                <Image Source="..\Materials\picture.png" Height="100" Width="100"/>
+                <Image Source="{Binding Image,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}" Height="100" Width="100"/>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Width="500">
-                        <Label Content="{Binding Path=MaterialTypeID}"/>
+                        <Label Content="{Binding Path=MaterialTypeID,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content=" | "/>
-                        <Label Content="{Binding Path=Title}"/>
+                        <Label Content="{Binding Path=Title,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Минимальное количество:"/>
-                        <Label Content="{Binding Path=MinCount}"/>
+                        <Label Content="{Binding Path=MinCount,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Поставщики:"/>
-                        <Label Content="{Binding Path=Suppliers}"/>
+                        <Label Content="{Binding Path=Suppliers,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Остаток:"/>
-                    <Label Content="{Binding Path=CountInStock}"/>
+                    <Label Content="{Binding Path=CountInStock,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content=" "/>
-                    <Label Content="{Binding Path=Unit}"/>
+                    <Label Content="{Binding Path=Unit,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
@@ -40,9 +40,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition/>
+            <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Path=OurMaterials}"
+        <ListBox Grid.Row="1" ItemsSource="{Binding Path=DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        <view:PaginationView Grid.Row="2" VerticalAlignment="Center" DataContext="{Binding TopPagination,
+            NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

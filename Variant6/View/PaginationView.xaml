@@ -15,7 +15,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Display Items:"/>
             <TextBox x:Name="tbxDisplayItems" 
-               Text="{Binding pagination.ItemsPerPage,
+               Text="{Binding Pagination.ItemsPerPage,
                 NotifyOnSourceUpdated=True,
                 UpdateSourceTrigger=PropertyChanged}"
                 Width="35" HorizontalContentAlignment="Center"
@@ -25,32 +25,32 @@
                     HorizontalAlignment="Right" 
                     Grid.Column="1">
             <TextBlock Text="Page "/>
-            <TextBlock Text="{Binding pagination.CurrentPage,
+            <TextBlock Text="{Binding Pagination.CurrentPage,
                 NotifyOnSourceUpdated=True,
                 UpdateSourceTrigger=PropertyChanged}"
                        Margin="5,0" Foreground="Blue"
                        />
             <TextBlock Text=" of "/>
-            <TextBlock Text="{Binding pagination.TotalPages,
+            <TextBlock Text="{Binding Pagination.TotalPages,
                 NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                        Margin="5,0" Foreground="Blue"
                        />
             <TextBlock Text="|" Margin="5,0"/>
             <TextBlock Text="Go to:"/>
             <TextBox x:Name="tbxGoTo" 
-                Text="{Binding pagination.CurrentPage,
+                Text="{Binding Pagination.CurrentPage,
                 NotifyOnSourceUpdated=True,
                 UpdateSourceTrigger=PropertyChanged}"
                      Width="35" HorizontalContentAlignment="Center"
                      />
             <TextBlock Text="|" Margin="5,0"/>
             <TextBlock Margin="5,0">
-                <Hyperlink>
+                <Hyperlink Command="{Binding Cmd_change_page}" CommandParameter="0">
                     Prev
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="5,0">
-                <Hyperlink>
+                <Hyperlink Command="{Binding Cmd_change_page}" CommandParameter="1">
                     Next
                 </Hyperlink>
             </TextBlock>
