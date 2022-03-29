@@ -15,6 +15,9 @@ namespace Variant6.ViewModel
 {
     internal class MainVewModel : ChangeNotifier
     {
+        #region Fields
+        private bool ascdesc=true;
+        #endregion
         #region Properties
         private PaginationViewModel topPagination;
         public PaginationViewModel TopPagination
@@ -64,6 +67,27 @@ namespace Variant6.ViewModel
             set
             {
                 selectedCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string descAsc;
+        public string DescAsc
+        {
+            get { return descAsc; }
+            set
+            {
+                descAsc = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool btnVisiable;
+        public bool BtnVisiable
+        {
+            get { return btnVisiable; }
+            set
+            {
+                btnVisiable = value;
                 OnPropertyChanged();
             }
         }
@@ -125,6 +149,8 @@ namespace Variant6.ViewModel
             Filter.Add("Стоимость");
             topPagination.Pagination.PropertyChanged += Pagination_PropertyChanged;
             processPage(null);
+            DescAsc = "Asc";
+            BtnVisiable = false;
         }
 
         private void Pagination_PropertyChanged(object Sender, PropertyChangedEventArgs e)
@@ -160,12 +186,58 @@ namespace Variant6.ViewModel
                 return filterCommand ??
                   (filterCommand= new RelayCommand(obj =>
                   {
+                      BtnVisiable = true;
                       if(SelectedCount.Equals("Наименование"))
                         FullList=FullList.OrderBy(p => p.Title).ToList();
                       if (SelectedCount.Equals("Остаток на складе"))
                           FullList = FullList.OrderBy(p => p.CountInStock).ToList();
                       if (SelectedCount.Equals("Стоимость"))
                           FullList=FullList.OrderBy(p => p.Cost).ToList();
+                      processPage(null);
+                  }));
+            }
+        }
+        private RelayCommand ascDescCommand;
+        public RelayCommand AscDescCommand
+        {
+            get
+            {
+                return ascDescCommand ??
+                  (ascDescCommand = new RelayCommand(obj =>
+                  {
+                      ascdesc= !ascdesc;
+                      if (SelectedCount.Equals("Наименование"))
+                          if (ascdesc == true)
+                          {
+                              FullList = FullList.OrderBy(p => p.Title).ToList();
+                              DescAsc = "Asc";
+                          }
+                          else
+                          {
+                              FullList = FullList.OrderByDescending(p => p.Title).ToList();
+                              DescAsc = "Desc";
+                          }
+                      else if (SelectedCount.Equals("Остаток на складе"))
+                          if (ascdesc == true)
+                          {
+                              FullList = FullList.OrderBy(p => p.CountInStock).ToList();
+                              DescAsc = "Asc";
+                          }
+                          else
+                          {
+                              FullList = FullList.OrderByDescending(p => p.CountInStock).ToList();
+                              DescAsc = "Desc";
+                          }
+                      else if (SelectedCount.Equals("Стоимость"))
+                          if (ascdesc == true)
+                          {
+                              FullList = FullList.OrderBy(p => p.Cost).ToList();
+                          }
+                          else
+                          {
+                              FullList = FullList.OrderByDescending(p => p.Cost).ToList();
+                              DescAsc = "Desc";
+                          }
                       processPage(null);
                   }));
             }

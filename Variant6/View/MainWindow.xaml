@@ -44,14 +44,10 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" DataContext="{Binding}">
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" DataContext="{Binding}" Grid.Row="0">
             <TextBox Width="300" Margin="10 0 10 0"/>
-            <ComboBox Width="150" Margin="10 0 10 0"/>
-            <TextBlock Margin="10 0 10 0">
-                <Hyperlink>
-                    
-                </Hyperlink>
-            </TextBlock>
+            <ComboBox Width="150" Margin="10 0 10 0" ItemsSource=""/>
+            <Button Margin="10 0 10 0" Content="{Binding DescAsc}" Width="50" Command="{Binding AscDescCommand}" IsEnabled="{Binding BtnVisiable}"/>
             <ComboBox Width="150" Margin="10 0 10 0" ItemsSource="{Binding Filter}" SelectedItem="{Binding SelectedCount}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
