@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Variant6.Model;
 using Variant6.View;
@@ -95,6 +96,26 @@ namespace Variant6.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string textFilter;
+        public string TextFilter
+        {
+            get { return textFilter; }
+            set
+            {
+                textFilter = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility visible;
+        public Visibility Visible
+        {
+            get { return visible; }
+            set
+            {
+                visible = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         public MainVewModel()
@@ -161,6 +182,7 @@ namespace Variant6.ViewModel
             processPage(null);
             DescAsc = "Asc";
             BtnVisiable = false;
+            Visible = Visibility.Hidden;
         }
 
         private void Pagination_PropertyChanged(object Sender, PropertyChangedEventArgs e)
@@ -269,6 +291,38 @@ namespace Variant6.ViewModel
 
                       }
                       processPage(null);
+                  }));
+            }
+        }
+        private RelayCommand filterText;
+        public RelayCommand FilterText
+        {
+            get
+            {
+                return filterText ??
+                  (filterText = new RelayCommand(obj =>
+                  {
+                      if (TextFilter.Length != 0)
+                      {
+                          FullList = AllList.Where(p => p.Title.StartsWith(TextFilter)).ToList();
+                      }
+                      else
+                      {
+                          FullList = AllList;
+                      }
+                      processPage(null);
+                  }));
+            }
+        }
+        private RelayCommand selectionChanged;
+        public RelayCommand SelectionChanged
+        {
+            get
+            {
+                return selectionChanged ??
+                  (selectionChanged = new RelayCommand(obj =>
+                  {
+                      Visible = Visibility.Visible;
                   }));
             }
         }

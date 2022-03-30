@@ -8,7 +8,7 @@
         xmlns:viewmodel="clr-namespace:Variant6.ViewModel"
         mc:Ignorable="d"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="Большая пачка" Height="450" Width="800" Icon="..\Materials\Большая пачка.ico">
+        Title="Большая пачка" Height="450" Width="875" Icon="..\Materials\Большая пачка.ico">
     <Window.Resources>
         <DataTemplate x:Key="MaterialItem">
             <StackPanel Orientation="Horizontal">
@@ -45,7 +45,15 @@
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" DataContext="{Binding}" Grid.Row="0">
-            <TextBox Width="300" Margin="10 0 10 0"/>
+            <TextBox Width="300" Margin="10 0 10 0" 
+                     Text="{Binding TextFilter,
+                UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding FilterText}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
             <ComboBox Width="150" Margin="10 0 10 0" ItemsSource="{Binding Materials}" SelectedItem="{Binding SelectedMaterial}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -61,9 +69,17 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
+            <Button Content="Изменить остаток" Visibility="{Binding Visible}"/>
         </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
-                     ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                     ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 SelectionMode="Multiple">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
         <view:PaginationView Grid.Row="2" VerticalAlignment="Center" DataContext="{Binding TopPagination,
             NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
