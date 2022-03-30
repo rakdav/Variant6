@@ -39,16 +39,9 @@ namespace Variant6.ViewModel
                 OnPropertyChanged();
             }
         }
-        private List<MaterialViewModel> fullList;
-        public List<MaterialViewModel> FullList
-        {
-            get { return fullList; }
-            set
-            {
-                fullList = value;
-                OnPropertyChanged();
-            }
-        }
+        private List<MaterialViewModel> FullList;
+        private List<MaterialViewModel> AllList;
+
         private ObservableCollection<MaterialViewModel> demo_list;
         public ObservableCollection<MaterialViewModel> DemoList
         {
@@ -60,6 +53,7 @@ namespace Variant6.ViewModel
             }
         }
         public List<string> Filter { get; set; }
+        public List<string> Materials { get; set; }
         private string selectedCount;
         public string SelectedCount
         {
@@ -67,6 +61,16 @@ namespace Variant6.ViewModel
             set
             {
                 selectedCount = value;
+                OnPropertyChanged();
+            }
+        }
+        private string selectedMaterial;
+        public string SelectedMaterial
+        {
+            get { return selectedMaterial; }
+            set
+            {
+                selectedMaterial = value;
                 OnPropertyChanged();
             }
         }
@@ -95,8 +99,9 @@ namespace Variant6.ViewModel
 
         public MainVewModel()
         {
-            demo_list = new ObservableCollection<MaterialViewModel>();
-            fullList = new List<MaterialViewModel>();
+            DemoList = new ObservableCollection<MaterialViewModel>();
+            FullList = new List<MaterialViewModel>();
+           
             using (ModelDB db = new ModelDB())
             {
                 var query = from p in db.Material
@@ -136,10 +141,15 @@ namespace Variant6.ViewModel
                     ourMaterial.Suppliers = res;
                     FullList.Add(ourMaterial);
                 }
+                AllList = new List<MaterialViewModel>(FullList);
+                List<MaterialType> materialTypes = db.MaterialType.ToList();
+                Materials = new List<string>();
+                Materials.Add("Все");
+                foreach (MaterialType t in materialTypes) Materials.Add(t.Title);
             }
             topPagination = new PaginationViewModel();
             bottomPagination = new PaginationViewModel();
-            PaginationModel topModel = new PaginationModel(fullList.Count(), 15);
+            PaginationModel topModel = new PaginationModel(FullList.Count(), 15);
             PaginationModel bottomModel = new PaginationModel(2500, 30);
             topPagination.seed(topModel);
             bottomPagination.seed(bottomModel);
@@ -238,6 +248,26 @@ namespace Variant6.ViewModel
                               FullList = FullList.OrderByDescending(p => p.Cost).ToList();
                               DescAsc = "Desc";
                           }
+                      processPage(null);
+                  }));
+            }
+        }
+        private RelayCommand materialCommand;
+        public RelayCommand MaterialCommand
+        {
+            get
+            {
+                return materialCommand ??
+                  (materialCommand = new RelayCommand(obj =>
+                  {
+                      FullList.Clear();
+                      if (SelectedMaterial.Equals("Все"))
+                          FullList = AllList;
+                      else
+                      {
+                          FullList = AllList.Where(p => p.MaterialTypeID.Equals(SelectedMaterial)).ToList();
+
+                      }
                       processPage(null);
                   }));
             }

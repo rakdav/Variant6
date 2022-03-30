@@ -46,7 +46,13 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" DataContext="{Binding}" Grid.Row="0">
             <TextBox Width="300" Margin="10 0 10 0"/>
-            <ComboBox Width="150" Margin="10 0 10 0" ItemsSource=""/>
+            <ComboBox Width="150" Margin="10 0 10 0" ItemsSource="{Binding Materials}" SelectedItem="{Binding SelectedMaterial}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding MaterialCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
             <Button Margin="10 0 10 0" Content="{Binding DescAsc}" Width="50" Command="{Binding AscDescCommand}" IsEnabled="{Binding BtnVisiable}"/>
             <ComboBox Width="150" Margin="10 0 10 0" ItemsSource="{Binding Filter}" SelectedItem="{Binding SelectedCount}">
                 <i:Interaction.Triggers>
@@ -56,7 +62,7 @@
                 </i:Interaction.Triggers>
             </ComboBox>
         </StackPanel>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Path=DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
+        <ListBox Grid.Row="1" ItemsSource="{Binding DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
         <view:PaginationView Grid.Row="2" VerticalAlignment="Center" DataContext="{Binding TopPagination,
             NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
