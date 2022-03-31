@@ -25,7 +25,6 @@ namespace Variant6.View
         {
             InitializeComponent();
             DataContext = new MainVewModel();
-            Visibility = Visibility.Visible;
         }
     }
 }

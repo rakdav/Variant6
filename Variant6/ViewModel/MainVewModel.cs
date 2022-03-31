@@ -116,13 +116,21 @@ namespace Variant6.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private MaterialViewModel selectedItems;
+        public MaterialViewModel SelectedItems
+        {
+            get { return selectedItems; }
+            set { selectedItems = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         public MainVewModel()
         {
             DemoList = new ObservableCollection<MaterialViewModel>();
             FullList = new List<MaterialViewModel>();
-           
             using (ModelDB db = new ModelDB())
             {
                 var query = from p in db.Material
@@ -322,10 +330,50 @@ namespace Variant6.ViewModel
                 return selectionChanged ??
                   (selectionChanged = new RelayCommand(obj =>
                   {
+                      if (SelectedItems is MaterialViewModel)
+                      {
+                          var sel = SelectedItems as MaterialViewModel;
+                          MaterialViewModel model = (MaterialViewModel)sel;
+                          FullList.Where(p=>p.Title.Equals(model.Title)).
+                            FirstOrDefault().IsChecked=!model.IsChecked;
+                      }
+
                       Visible = Visibility.Visible;
                   }));
             }
         }
+        private RelayCommand amount;
+        public RelayCommand Amount
+        {
+            get
+            {
+                return amount ??
+                    (amount = new RelayCommand(obj =>
+                    {
+                       int min = (int)FullList.Max(p => p.CountInStock);
+                       OstView ostView = new OstView(min);
+                       if(ostView.ShowDialog()==true)
+                       {
+                            int ost = ostView.MaxCount;
+                            foreach (var item in FullList.Where(p => p.IsChecked == true).ToList())
+                            {
+                                item.MinCount = ost;
+                                using(ModelDB db=new ModelDB())
+                                {
+                                    Material material = db.Material.Where(p => p.Title.Equals(item.Title)).FirstOrDefault();
+                                    if (material != null)
+                                    {
+                                        material.MinCount = ost;
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+                       }
+                        processPage(null);
+                    }));
+            }
+        }
+
         #endregion
     }
 }

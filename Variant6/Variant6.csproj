@@ -145,6 +145,9 @@
     <Compile Include="Model\sysdiagrams.cs" />
     <Compile Include="ViewModel\PaginationViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="View\OstView.xaml.cs">
+      <DependentUpon>OstView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PaginationView.xaml.cs">
       <DependentUpon>PaginationView.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\OstView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PaginationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

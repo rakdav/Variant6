@@ -21,6 +21,7 @@ namespace Variant6.Model
         private string image;
         private string materialTypeID;
         private string suppliers;
+        private bool isChecked=false;
         public string Title {
             get { return title; }
             set
@@ -108,6 +109,15 @@ namespace Variant6.Model
                 OnPropertyChanged();
             }
         }
-    
+
+        public bool IsChecked
+        {
+            get { return IsChecked; }
+            set
+            {
+                isChecked = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

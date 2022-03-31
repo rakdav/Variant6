@@ -69,11 +69,11 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Button Content="Изменить остаток" Visibility="{Binding Visible}"/>
+            <Button Command="{Binding Amount}" Content="Изменить остаток" Visibility="{Binding Visible}"/>
         </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding DemoList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"
                      ItemTemplate="{StaticResource MaterialItem}" ScrollViewer.VerticalScrollBarVisibility="Visible"
-                 SelectionMode="Multiple">
+                 SelectionMode="Multiple" SelectedItem="{Binding SelectedItems}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
