@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -168,6 +169,7 @@ namespace Variant6.ViewModel
                     if (res.Length != 0)
                         res = res.Substring(0, res.Length - 2);
                     ourMaterial.Suppliers = res;
+                    ourMaterial.IsChecked = false;
                     FullList.Add(ourMaterial);
                 }
                 AllList = new List<MaterialViewModel>(FullList);
@@ -334,10 +336,13 @@ namespace Variant6.ViewModel
                       {
                           var sel = SelectedItems as MaterialViewModel;
                           MaterialViewModel model = (MaterialViewModel)sel;
-                          FullList.Where(p=>p.Title.Equals(model.Title)).
-                            FirstOrDefault().IsChecked=!model.IsChecked;
+                          model.IsChecked=true;
+                          foreach (MaterialViewModel item in FullList)
+                          {
+                              if (item == model) item.IsChecked =model.IsChecked;
+                          }             
                       }
-
+                      SelectedItems = null;
                       Visible = Visibility.Visible;
                   }));
             }
@@ -350,7 +355,8 @@ namespace Variant6.ViewModel
                 return amount ??
                     (amount = new RelayCommand(obj =>
                     {
-                       int min = (int)FullList.Max(p => p.CountInStock);
+                       List<MaterialViewModel> list = FullList.Where(p => p.IsChecked == true).ToList();
+                       int min = (int)list.Max(p => p.MinCount);
                        OstView ostView = new OstView(min);
                        if(ostView.ShowDialog()==true)
                        {
@@ -358,12 +364,14 @@ namespace Variant6.ViewModel
                             foreach (var item in FullList.Where(p => p.IsChecked == true).ToList())
                             {
                                 item.MinCount = ost;
+                                item.IsChecked = false;
                                 using(ModelDB db=new ModelDB())
                                 {
                                     Material material = db.Material.Where(p => p.Title.Equals(item.Title)).FirstOrDefault();
                                     if (material != null)
                                     {
                                         material.MinCount = ost;
+                                        db.Entry(material).State = EntityState.Modified;
                                         db.SaveChanges();
                                     }
                                 }

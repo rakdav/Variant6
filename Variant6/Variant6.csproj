@@ -145,12 +145,19 @@
     <Compile Include="Model\sysdiagrams.cs" />
     <Compile Include="ViewModel\PaginationViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="View\AddEditView.xaml.cs">
+      <DependentUpon>AddEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OstView.xaml.cs">
       <DependentUpon>OstView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PaginationView.xaml.cs">
       <DependentUpon>PaginationView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\AddEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
