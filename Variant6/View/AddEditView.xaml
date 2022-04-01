@@ -36,7 +36,7 @@
             </TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="1" HorizontalAlignment="Right">
-            <ComboBox Text="{Binding MaterialTypeID}" ItemsSource="{Binding List}" Width="150" Margin="10 0 10 0">
+            <ComboBox Text="{Binding MaterialTypeID}" x:Name="comboType" Width="150" Margin="10 0 10 0">
 
             </ComboBox>
         </StackPanel>
@@ -110,7 +110,7 @@
             <Button Content="Удалить" Width="100" Margin="10 30" Click="Button_Click">
 
             </Button>
-            <ComboBox x:Name="suppl" Width="100" Margin="10 30" ItemsSource="{Binding Path=Supp}" SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBox x:Name="suppl" Width="100" Margin="10 30"  SelectionChanged="ComboBox_SelectionChanged">
 
             </ComboBox>
        

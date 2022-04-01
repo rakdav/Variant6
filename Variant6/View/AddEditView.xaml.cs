@@ -24,8 +24,7 @@ namespace Variant6.View
     /// </summary>
     public partial class AddEditView : Window, INotifyPropertyChanged
     {
-        public MaterialViewModel material { get; set; }
-        public List<string> List { get; set; }
+        public MaterialViewModel Material { get; set; }
         public List<string> Supp { get; set; }
         private List<string> suppList;
         public List<string> SuppList
@@ -40,16 +39,17 @@ namespace Variant6.View
         public AddEditView()
         {
             InitializeComponent();
-            DataContext = this;
+            
             SuppList = new List<string>();
             using (ModelDB dB = new ModelDB())
             {
-                List = dB.MaterialType.Select(p => p.Title).ToList();
-                Supp = dB.Supplier.Select(p => p.Title).ToList();
+                comboType.ItemsSource = dB.MaterialType.Select(p => p.Title).ToList();
+                suppl.ItemsSource = dB.Supplier.Select(p => p.Title).ToList();
             }
-            material = new MaterialViewModel();
+            Material = new MaterialViewModel();
+            DataContext = Material;
 
-           // ImagesLoad.Source = new BitmapImage(new Uri(@"/Resources/logo.png"));
+            //ImagesLoad.Source = new BitmapImage(new Uri(@"/Variant6;component/Materials/9304.jpg", UriKind.Relative));
 
             //ImagesLoad.Source = new BitmapImage(new Uri(@"..\..\Materials\9304.jpg", UriKind.Relative)) { CreateOptions = BitmapCreateOptions.IgnoreImageCache };
         }
@@ -95,8 +95,8 @@ namespace Variant6.View
                 {
                     fileInf.CopyTo(newPath, true);
                 }
-                Resources.Add(openFileDialog.SafeFileName, newPath);
-                ImagesLoad.Source = new BitmapImage(new Uri(newPath, UriKind.Relative)) { CreateOptions = BitmapCreateOptions.IgnoreImageCache };
+                ImagesLoad.Source = new BitmapImage(new Uri(fileName));
+                Material.Image = @"\Materials\" + openFileDialog.SafeFileName;
             }
 
         }

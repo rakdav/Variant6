@@ -390,7 +390,36 @@ namespace Variant6.ViewModel
                     (addEdit = new RelayCommand(obj =>
                     {
                         AddEditView addEditView = new AddEditView();
-                        addEditView.ShowDialog();
+                        if(addEditView.ShowDialog()==true)
+                        {
+                            MaterialViewModel material = addEditView.Material;
+                            Material mat = new Material();
+                            mat.Title = material.Title;
+                            mat.Unit = material.Unit;
+                            mat.CountInPack = material.CountInPack;
+                            mat.CountInStock = material.CountInStock;
+                            mat.Description = material.Description;
+                            mat.Cost = material.Cost;
+                            mat.Image = material.Image;
+                            mat.MaterialTypeID = material.MaterialTypeID;
+                            mat.MinCount = material.MinCount;
+                            using (ModelDB db = new ModelDB())
+                            {
+                                db.Material.Add(mat);
+                                db.SaveChanges();
+                                foreach(string st in addEditView.SuppList)
+                                {
+                                    MaterialSupplier supplier = new MaterialSupplier();
+                                    supplier.MaterialID = mat.Title;
+                                    supplier.SupplierID = st;
+                                    db.MaterialSupplier.Add(supplier);
+                                    db.SaveChanges();
+                                }
+                            }
+                            FullList.Add(material);
+                            AllList.Add(material);
+                            processPage(null);
+                        }
                     }));
             }
         }
