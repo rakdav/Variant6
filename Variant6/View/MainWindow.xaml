@@ -83,7 +83,7 @@
         <view:PaginationView Grid.Row="2" VerticalAlignment="Center" DataContext="{Binding TopPagination,
             NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" >
-        <Button Content="+" FontSize="30" Width="100" Margin="10"/>
+        <Button Command="{Binding AddEdit}" Content="+" FontSize="30" Width="100" Margin="10"/>
         <Button Content="-" FontSize="30" Width="100" Margin="10"/>
 
         </StackPanel>

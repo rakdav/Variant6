@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Variant6.View"
         mc:Ignorable="d"
-        Title="AddEditView" Height="650" Width="450">
+        Title="AddEditView" Height="750" Width="450">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="0.05*"/>
@@ -16,6 +16,7 @@
             <RowDefinition Height="0.06*"/>
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.06*"/>
+            <RowDefinition Height="0.13*"/>
             <RowDefinition Height="0.13*"/>
             <RowDefinition Height="0.06*"/>
         </Grid.RowDefinitions>
@@ -30,12 +31,12 @@
             </TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="1" HorizontalAlignment="Left">
-            <TextBox  Margin="10 0 10 0" Width="150">
+            <TextBox  Margin="10 0 10 0" Width="150" Text="{Binding Path=Title}">
 
             </TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="1" HorizontalAlignment="Right">
-            <ComboBox  Width="150" Margin="10 0 10 0">
+            <ComboBox Text="{Binding MaterialTypeID}" ItemsSource="{Binding List}" Width="150" Margin="10 0 10 0">
 
             </ComboBox>
         </StackPanel>
@@ -50,12 +51,12 @@
             </TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="3" HorizontalAlignment="Left">
-            <TextBox  Margin="10 0 10 0" Width="150">
+            <TextBox Text="{Binding CountInStock}"  Margin="10 0 10 0" Width="150">
 
             </TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="3" HorizontalAlignment="Right">
-            <TextBox  Width="150" Margin="10 0 10 0">
+            <TextBox Text="{Binding Unit}" Width="150" Margin="10 0 10 0">
 
             </TextBox>
         </StackPanel>
@@ -70,12 +71,12 @@
             </TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="5" HorizontalAlignment="Left">
-            <TextBox  Margin="10 0 10 0" Width="150">
+            <TextBox Text="{Binding CountInPack}" Margin="10 0 10 0" Width="150">
 
             </TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="5" HorizontalAlignment="Right">
-            <TextBox  Width="150" Margin="10 0 10 0">
+            <TextBox Text="{Binding MinCount}" Width="150" Margin="10 0 10 0">
 
             </TextBox>
         </StackPanel>
@@ -90,29 +91,44 @@
             </TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="7" HorizontalAlignment="Left">
-            <TextBox  Margin="10 0 10 0" Width="150">
+            <TextBox Text="{Binding Cost}" Margin="10 0 10 0" Width="150">
 
             </TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="7" HorizontalAlignment="Right">
-            <TextBox  Width="150" Margin="10 0 10 0">
+            <TextBox Text="{Binding Description}"  Width="150" Margin="10 0 10 0">
 
             </TextBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="8">
-            <Image x:Name="ImagesLoad" Source="../Materials/picture.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="8">
+            <ListBox Width="150" Height="100" x:Name="supL" />
+
+
+
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="8" HorizontalAlignment="Right">
-            <Button x:Name="btnImage" Margin="10 0 10 0" Width="150" Height="40" Click="btnImage_Click">
+        <StackPanel HorizontalAlignment="Right" Grid.Row="8" Orientation="Horizontal" Margin="10">
+            <Button Content="Удалить" Width="100" Margin="10 30" Click="Button_Click">
+
+            </Button>
+            <ComboBox x:Name="suppl" Width="100" Margin="10 30" ItemsSource="{Binding Path=Supp}" SelectionChanged="ComboBox_SelectionChanged">
+
+            </ComboBox>
+       
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="9">
+            <Image x:Name="ImagesLoad" Source="{Binding Image}" Height="100" Width="100" HorizontalAlignment="Left" Margin="10 0 10 0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="9" HorizontalAlignment="Right">
+            <Button x:Name="btnImage" Margin="10 0 10 0" Width="150" Height="40" Click="btnImage_Click" >
                 Добавить картинку
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="9" HorizontalAlignment="Left">
-            <Button x:Name="btnOk" Width="100">
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="10" HorizontalAlignment="Left">
+            <Button x:Name="btnOk" Width="100" Click="btnOk_Click">
                 ОК
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="9" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Margin="10 15 10 15" Grid.Row="10" HorizontalAlignment="Right">
             <Button x:Name="btnClose" Width="100" Click="btnClose_Click">
                 Отмена
             </Button>

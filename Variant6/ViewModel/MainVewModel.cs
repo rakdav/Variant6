@@ -381,6 +381,19 @@ namespace Variant6.ViewModel
                     }));
             }
         }
+        private RelayCommand addEdit;
+        public RelayCommand AddEdit
+        {
+            get
+            {
+                return addEdit ??
+                    (addEdit = new RelayCommand(obj =>
+                    {
+                        AddEditView addEditView = new AddEditView();
+                        addEditView.ShowDialog();
+                    }));
+            }
+        }
 
         #endregion
     }
